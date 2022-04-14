@@ -1,0 +1,4 @@
+Покемон {name} №{poke_id}
+Тип: {poke_type}
+Повышенный урон от {vulnerable}
+Пониженный урон от {resistant}

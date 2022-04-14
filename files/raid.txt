@@ -1,0 +1,8 @@
+﻿@all ⚔ 
+Рейд: {boss}
+Нужно игроков: {number_players}
+От 25 уровня
+
+Ник организатора: {nick}
+Код дружбы: {friendship_code}
+Уровень: {level}
