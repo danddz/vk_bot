@@ -5,6 +5,7 @@ import requests
 import vk_api
 import random
 import time
+from subprocess import run, PIPE
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from io import BytesIO
 from vk_api.upload import VkUpload
@@ -18,7 +19,6 @@ import json
 with open('files/token_0.txt', 'r', encoding='utf-8') as file:
     vk_session = vk_api.VkApi(token=file.readline())
     
-
 class bot_vk():
     def __init__(self, vk_session):
         self.vk_session = vk_session
@@ -136,6 +136,8 @@ class bot_vk():
                             self.unmute(event_msg)
                         else:
                             self.insufficient_rights(event_msg)
+                    elif event_text.split()[0].lower() in ['/discord', '/дискорд', '/ds', '/дс']:
+                        self.get_discord_url(event_msg)
                     elif event_text.split()[0].lower() == '/бой' and len(self.game) == 0 and self.raid_flag == 0:
                         self.keyboard_battle(event_msg)
                     elif event_text.split()[0].lower() == '/бойотмена' and len(self.game) != 0:
@@ -1801,6 +1803,16 @@ class bot_vk():
         except Exception as e:
             msg = 'Error in print_admin_help'
             self.add_error(msg + str(e))
+            
+    def get_discord_url(self, event):
+        try:
+            self.messages_delete(event, event['conversation_message_id'])
+            solution = run(['python3', 'discord_bot.py'], stdout=PIPE, input='', encoding='ascii')
+            msg = solution.stdout
+            self.messages_send(event, msg, flag=1)
+        except Exception as e:
+            msg = 'Error in get_discord_url'
+            self.add_error(msg + str(e))
  
     def delete_category(self, event):
         try:
@@ -1873,7 +1885,6 @@ class bot_vk():
         except Exception as e:
             msg = 'Error in append_category'
             self.add_error(msg + str(e))
-            
             
 bot = bot_vk(vk_session)
 bot.start()
