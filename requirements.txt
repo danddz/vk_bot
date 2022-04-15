@@ -1,0 +1,14 @@
+os
+requests
+vk_api
+random
+time
+subprocess
+io
+pandas
+PIL
+json
+matplotlib.pyplot
+discord
+sys
+bs4
